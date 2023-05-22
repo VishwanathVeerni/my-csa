@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suites xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/suiteSchema.xsd">
+    <suite name="StripeOxxoPaymentSuite">
+        <before>
+            <actionGroup ref="AdminStripeSaveConfigurationActionGroup" stepKey="configureAPIKeys">
+                <argument name="pk" value="{{_CREDS.stripe/api_acc1_oxxo_pk}}" />
+                <argument name="sk" value="{{_CREDS.stripe/api_acc1_oxxo_sk}}" />
+            </actionGroup>
+
+            <magentoCLI command="config:set payment/stripe_payments/payment_flow 0" stepKey="setCheckoutMode"/>
+
+            <magentoCLI command="cache:clean" stepKey="clearAllCache"/>
+        </before>
+        <after>
+            <actionGroup ref="AdminStripeSaveConfigurationActionGroup" stepKey="resetStripeSettings">
+                <argument name="pk" value="{{_CREDS.stripe/api_acc1_pk}}" />
+                <argument name="sk" value="{{_CREDS.stripe/api_acc1_sk}}" />
+            </actionGroup>
+        </after>
+        <include>
+            <test name="GuestCustomerNormalCartWithOxxoPaymentMethodTest"/>
+        </include>
+    </suite>
+</suites>

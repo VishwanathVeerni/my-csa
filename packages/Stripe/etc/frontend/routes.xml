@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * Stripe compatibility ScandiPWA
+ * @copyright Scandiweb, Inc. All rights reserved.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="standard">
+        <route id="scandiweb_stripe_payments" frontName="scandiweb_stripe">
+            <module name="Scandiweb_Stripe" />
+        </route>
+    </router>
+</config>

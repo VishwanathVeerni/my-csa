@@ -1,0 +1,188 @@
+# ==========================================
+# Entry points
+# ==========================================
+
+extends type Query {
+    stripeConfig: StripeConfig @resolver(class: "Scandiweb\\Stripe\\Model\\Resolver\\Config")
+    stripeApplePayConfig(
+        type: String!
+        cartId: String!
+    ): StripeApplePayConfig @resolver(class: "Scandiweb\\Stripe\\Model\\Resolver\\ApplePayConfig")
+    stripePaymentsConfig(
+        cartId: String!
+    ): StripePaymentsConfig @resolver(class: "Scandiweb\\Stripe\\Model\\Resolver\\PaymentsConfig")
+    stripeMyPaymentMethodsConfig: StripePaymentsConfig @resolver(class: "Scandiweb\\Stripe\\Model\\Resolver\\MyPaymentMethodsConfig")
+    stripeMySubscriptions: [StripeSubscription] @resolver(class: "Scandiweb\\Stripe\\Model\\Resolver\\Subscriptions")
+}
+
+extends type QuoteData {
+    stripe: StripeTotals @resolver(class: "Scandiweb\\Stripe\\Model\\Resolver\\Totals")
+}
+
+extends interface ProductInterface {
+    stripeSubscriptionDetails: [StripeSubscriptionDetail] @resolver(class: "Scandiweb\\Stripe\\Model\\Resolver\\SubscriptionDetails")
+}
+
+extends type Mutation {
+    stripeEstimateShipping(
+        address: StripeAddressInput!
+        cartId: String!
+    ): [StripeShippingOption] @resolver(class: "Scandiweb\\Stripe\\Model\\Resolver\\EstimateCart")
+    stripeApplyShipping(
+        address: StripeAddressInput!
+        shippingOptionId: String!
+        cartId: String!
+    ): StripeAppliedShipping @resolver(class: "Scandiweb\\Stripe\\Model\\Resolver\\ApplyShipping")
+    stripePlaceOrder(
+        type: String!
+        rawPaymentDetails: String!
+        cartId: String!
+    ): StripePlaceOrder @resolver(class: "Scandiweb\\Stripe\\Model\\Resolver\\PlaceOrder")
+    deleteMyPaymentMethod(
+        token: String!
+        fingerprint: String
+    ): [StripePaymentMethod] @resolver(class: "Scandiweb\\Stripe\\Model\\Resolver\\DeleteMyPaymentMethod")
+    cancelSubscription(
+        subscriptionId: String!
+    ): [StripeSubscription] @resolver(class: "Scandiweb\\Stripe\\Model\\Resolver\\CancelSubscription")
+    changePaymentForSubscription(
+        subscriptionId: String!
+        paymentMethodId: String!
+    ): [StripeSubscription] @resolver(class: "Scandiweb\\Stripe\\Model\\Resolver\\ChangePaymentForSubscription")
+}
+
+input StripePaymentsInput {
+    client_side_confirmation: Boolean
+    payment_method: String
+}
+
+# ==========================================
+# Other types
+# ==========================================
+
+type StripeSubscription {
+    id: String
+    name: String
+    billedAt: String
+    orderId: String
+    paymentMethod: StripePaymentMethod
+}
+
+type StripePaymentsConfig {
+    savedMethods: [StripePaymentMethod]
+    clientSecret: String
+    successUrl: String
+}
+
+type StripePaymentMethod {
+    brand: String
+    created: Int
+    cvc: Int
+    exp_month: Int
+    exp_year: Int
+    fingerprint: String
+    icon: String
+    id: String
+    label: String
+    type: String
+    value: String
+}
+
+type StripePlaceOrder {
+    orderId: String
+}
+
+input StripeAddressInput {
+    country: String
+    addressLine: [String]
+    region: String
+    city: String
+    postalCode: String
+    recipient: String
+    phone: String
+    sortingCode: String
+    dependentLocality: String
+    organization: String
+}
+
+type StripeShippingOption {
+    id: String
+    label: String
+    amount: Int
+}
+
+type StripeCartTotal {
+    label: String
+    amount: Int
+    pending: Boolean
+}
+
+type StripeAppliedShipping {
+    total: StripeCartTotal
+    displayItems: [StripeCartTotal]
+}
+
+type StripeApplePayConfig {
+    currency: String
+    total: StripeCartTotal
+    displayItems: [StripeCartTotal]
+    country: String
+    requestPayerName: Boolean
+    requestPayerEmail: Boolean
+    requestPayerPhone: Boolean
+    requestShipping: Boolean
+}
+
+type StripeConfig {
+    buttonConfig: StripeButtonConfig
+    params: StripeParams
+    expressDisplay: StripeExpressDisplay
+    expressTitle: String
+}
+
+type StripeExpressDisplay {
+    cart: Boolean
+    minicart: Boolean
+    product: Boolean
+    checkout: Boolean
+}
+
+type StripeParams {
+    appInfo: StripeAppInfo
+    apiKey: String
+    locale: String
+}
+
+type StripeAppInfo {
+    name: String
+    version: String
+    url: String
+    partner_id: String
+}
+
+type StripeButtonConfig {
+    type: String
+    theme: String
+    height: String
+}
+
+type StripeSubscriptionDetail {
+    value: String
+    label: String
+}
+
+type StripeTotals {
+    trialSubscriptions: StripeTrialSubscriptions
+    initialFee: Float
+}
+
+type StripeTrialSubscriptions {
+    base_discount_total: Float
+    base_shipping_total: Float
+    base_subscriptions_total: Float
+    base_tax_total: Float
+    discount_total: Float
+    shipping_total: Float
+    subscriptions_total: Float
+    tax_total: Float
+}

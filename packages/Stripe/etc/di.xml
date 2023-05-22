@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * Stripe compatibility ScandiPWA
+ * @copyright Scandiweb, Inc. All rights reserved.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="ScandiPWA\Router\Controller\ConfigurableRouter">
+        <arguments>
+            <argument name="ignoredURLs" xsi:type="array">
+                <item name="scandiweb_stripe" xsi:type="string">^/scandiweb_stripe/*</item>
+                <!-- ^^^ Expose our stripe (for payment confirmation) -->
+                <item name="stripe_webhooks" xsi:type="string">^/stripe/webhooks</item>
+                <item name="stripe_payment" xsi:type="string">^/stripe/payment</item>
+                <!-- ^^^ Expose original stripe (for webhooks and payments) -->
+                <!--     We need to have customer hidden, as we use same routes -->
+            </argument>
+        </arguments>
+    </virtualType>
+</config>

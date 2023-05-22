@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suites xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/suiteSchema.xsd">
+    <suite name="StripeAfterpayPaymentSuite">
+        <before>
+            <actionGroup ref="AdminStripeSaveConfigurationActionGroup" stepKey="updateConfiguration">
+                <argument name="pk" value="{{_CREDS.stripe/api_acc1_afterpay_pk}}" />
+                <argument name="sk" value="{{_CREDS.stripe/api_acc1_afterpay_sk}}" />
+            </actionGroup>
+
+            <magentoCLI command="cache:clean config" stepKey="clearConfigCache"/>
+        </before>
+        <after>
+            <actionGroup ref="AdminStripeSaveConfigurationActionGroup" stepKey="resetConfiguration">
+                <argument name="pk" value="{{_CREDS.stripe/api_acc1_pk}}" />
+                <argument name="sk" value="{{_CREDS.stripe/api_acc1_sk}}" />
+            </actionGroup>
+        </after>
+        <include>
+            <test name="GuestCustomerNormalCartWithAfterpayPaymentMethodTest"/>
+        </include>
+    </suite>
+</suites>

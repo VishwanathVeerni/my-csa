@@ -1,0 +1,28 @@
+.StripePayments {
+    &-Method {
+        display: flex;
+        align-items: center;
+
+        img {
+            width: 40px;
+            padding-inline-end: 10px;
+        }
+    }
+
+    &-CardElement {
+        margin-block-start: 2rem;
+        min-height: 150px;
+    }
+
+    &-CvcElement {
+        margin-block-start: 2rem;
+    }
+
+    &-Select {
+        z-index: 100;
+    }
+
+    .Loader {
+        z-index: 1000;
+    }
+}

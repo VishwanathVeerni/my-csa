@@ -1,0 +1,40 @@
+.MyPaymentMethods {
+    &-MethodLabel {
+        display: flex;
+        align-items: center;
+        min-height: 60px;
+
+        img {
+            width: 40px;
+            margin-inline-end: 15px;
+        }
+
+        span {
+            flex-grow: 1;
+        }
+    }
+
+    &-Table {
+        width: 100%;
+
+        td, th {
+            vertical-align: middle;
+        }
+    }
+
+    &-Title {
+        // vvv Copied this from account dashboard styles
+        border-bottom: var(--my-account-content-border);
+        display: flex;
+        justify-content: space-between;
+        font-size: 18px;
+        padding-block-end: 6px;
+        width: 100%;
+        margin-block-end: 25px;
+    }
+
+    &-Element {
+        min-height: 100px;
+        margin-block-end: 15px;
+    }
+}

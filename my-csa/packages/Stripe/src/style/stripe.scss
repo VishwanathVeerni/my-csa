@@ -1,0 +1,58 @@
+.payment-request-button {
+    --loader-scale: .5;
+    
+    background-color: var(--color-gray);
+    height: 50px;
+    border-radius: 4px;
+}
+
+.CartPage .CheckoutOrderSummary-ButtonWrapper {
+    @include mobile {
+        height: auto;
+        // ^^^ needed to make actions area adjustable
+    }
+
+    .payment-request-button {
+        margin-block-end: 14px;
+
+        @include mobile {
+            margin-block-start: 14px;
+            margin-block-end: 0;
+        }
+    }
+}
+
+.CartOverlay {
+    &-Actions {
+        flex-wrap: wrap;
+    }
+
+    .payment-request-button {
+        flex-basis: 100%;
+        margin-block-start: 12px;
+    }
+}
+
+.ProductActions {
+    .payment-request-button {
+        margin-block-start: 24px;
+        margin-inline-end: 16px;
+        // ^^^ Needed to match add to cart ?
+    }
+}
+
+.Checkout_isConfirmationFailed {
+    .CheckoutBilling > * {
+        &:not(.Checkout-StickyButtonWrapper) {
+            &:not(.CheckoutPayments) {
+                display: none;
+            }
+        }
+    }
+
+    .CheckoutPayments-Methods,
+    .StripePayments-Select,
+    .StripeCheckoutExpress {
+        display: none;
+    }
+}
